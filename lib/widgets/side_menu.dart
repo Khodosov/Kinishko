@@ -8,51 +8,62 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
+  // Category selection flags
   bool menuPicked = false;
   bool scorePicked = false;
   bool nextTimePicked = false;
   bool favoritePicked = false;
 
+  // Animation timing
+  Duration buttonAnimationDuration = Duration(milliseconds: 900);
+  Duration panelAnimationDuration = Duration(milliseconds: 600);
+
+  // Button size
+  double iconSize = 40;
+  double notSelectedButtonWidth = 40;
+  double selectedButtonWidth = 40 * 3;
+  double buttonHeight = 40;
+
+  //
+
   @override
   Widget build(BuildContext context) {
     double sideSize = MediaQuery.of(context).size.width / 7;
     return AnimatedContainer(
-      duration: Duration(seconds: 1),
+      duration: panelAnimationDuration,
       curve: Curves.fastOutSlowIn,
       decoration: BoxDecoration(
         color: Color.fromRGBO(25, 0, 42, 1),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15), bottomLeft: Radius.circular(15)),
       ),
-
       width: !menuPicked ? sideSize : sideSize * 3,
       height: double.infinity,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20),
           buildMenuButton(),
           buildNextTimeButton(),
           buildScoreButton(),
           buildFavoriteButton()
-
         ],
       ),
     );
   }
 
-  Widget buildMenuButton(){
-    return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      curve: Curves.fastOutSlowIn,
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: menuPicked ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
+  Widget buildMenuButton() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: AnimatedContainer(
+        duration: buttonAnimationDuration,
+        curve: Curves.fastOutSlowIn,
+        decoration: BoxDecoration(
+          color: menuPicked ? Colors.white : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: IconButton(
-          onPressed: (){
+          onPressed: () {
             setState(() {
               menuPicked = !menuPicked;
               scorePicked = false;
@@ -60,85 +71,112 @@ class _SideMenuState extends State<SideMenu> {
               nextTimePicked = false;
             });
           },
-          icon: Icon(Icons.menu, color: !menuPicked ? Colors.white : Color.fromRGBO(25, 0, 42, 1),),
+          icon: menuPicked
+              ? Icon(
+                  Icons.arrow_forward_ios,
+                  color: Color.fromRGBO(25, 0, 42, 1),
+                )
+              : Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
         ),
       ),
     );
   }
 
-  Widget buildScoreButton(){
-    return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      curve: Curves.fastOutSlowIn,
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: scorePicked ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
+  Widget buildScoreButton() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: AnimatedContainer(
+        duration: buttonAnimationDuration,
+        curve: Curves.fastOutSlowIn,
+        decoration: BoxDecoration(
+          color: scorePicked ? Colors.white : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: IconButton(
-          onPressed: (){
+          onPressed: () {
             setState(() {
               scorePicked = !scorePicked;
-              menuPicked = false;
               nextTimePicked = false;
               favoritePicked = false;
             });
           },
-          icon: Icon(Icons.star, color: !scorePicked ? Colors.white : Color.fromRGBO(25, 0, 42, 1),),
+          icon: Icon(
+            Icons.star,
+            color: !scorePicked ? Colors.white : Color.fromRGBO(25, 0, 42, 1),
+          ),
         ),
       ),
     );
   }
 
-  Widget buildNextTimeButton(){
-    return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      curve: Curves.fastOutSlowIn,
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: nextTimePicked ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
+  Widget buildNextTimeButton() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: AnimatedContainer(
+        duration: buttonAnimationDuration,
+        curve: Curves.fastOutSlowIn,
+        decoration: BoxDecoration(
+          color: nextTimePicked ? Colors.white : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: IconButton(
-          onPressed: (){
+          onPressed: () {
             setState(() {
               nextTimePicked = !nextTimePicked;
-              menuPicked = false;
               scorePicked = false;
               favoritePicked = false;
             });
           },
-          icon: Icon(Icons.schedule, color: !nextTimePicked ? Colors.white : Color.fromRGBO(25, 0, 42, 1),),
+          icon: Icon(
+            Icons.schedule,
+            color:
+                !nextTimePicked ? Colors.white : Color.fromRGBO(25, 0, 42, 1),
+          ),
         ),
       ),
     );
   }
 
-  Widget buildFavoriteButton(){
-    return AnimatedContainer(
-      duration: Duration(seconds: 1),
-      curve: Curves.fastOutSlowIn,
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: favoritePicked ? Colors.white : Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: IconButton(
-          onPressed: (){
-            setState(() {
-              favoritePicked = !favoritePicked;
-              menuPicked = false;
-              scorePicked = false;
-              nextTimePicked = false;
-            });
-          },
-          icon: Icon(Icons.favorite, color: !favoritePicked ? Colors.white : Color.fromRGBO(25, 0, 42, 1),),
+  Widget buildFavoriteButton() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: AnimatedContainer(
+        duration: buttonAnimationDuration,
+        curve: Curves.fastOutSlowIn,
+        decoration: BoxDecoration(
+          color: favoritePicked ? Colors.white : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  favoritePicked = !favoritePicked;
+                  scorePicked = false;
+                  nextTimePicked = false;
+                });
+              },
+              icon: Icon(
+                Icons.favorite,
+                color: !favoritePicked
+                    ? Colors.white
+                    : Color.fromRGBO(25, 0, 42, 1),
+              ),
+            ),
+            Text(
+              'избранное',
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: !favoritePicked
+                      ? Colors.white
+                      : Color.fromRGBO(25, 0, 42, 1),
+                  fontSize: 20),
+            ),
+          ],
         ),
       ),
     );
